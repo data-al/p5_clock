@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>P5 Map with Planes</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+</head>
+<body>
+<script>
+  let mapImg;
+  let planes = [];
+
+  function preload() {
+    mapImg = loadImage('https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/BlankMap-World6.svg/2000px-BlankMap-World6.svg.png');
+  }
+
+  function setup() {
+    createCanvas(800, 400);
+    for (let i = 0; i < 5; i++) {
+      planes.push({
+        x: random(width),
+        y: random(height),
+        speed: random(1, 3),
+        dir: random(TWO_PI)
+      });
+    }
+  }
+
+  function draw() {
+    background(mapImg);
+    planes.forEach(p => {
+      p.x += cos(p.dir) * p.speed;
+      p.y += sin(p.dir) * p.speed;
+      if (p.x > width) p.x = 0;
+      if (p.x < 0) p.x = width;
+      if (p.y > height) p.y = 0;
+      if (p.y < 0) p.y = height;
+      push();
+      translate(p.x, p.y);
+      rotate(p.dir);
+      fill(255, 0, 0);
+      noStroke();
+      triangle(-5, 5, 5, 0, -5, -5);
+      pop();
+    });
+  }
+</script>
+</body>
+</html>
